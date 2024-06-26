@@ -1,48 +1,153 @@
 var cartas = document.querySelectorAll(".carta");
-var cartaSeleccionada = false;
 var archivos = [
-    "2c.gif", "2d.gif", "2h.gif", "2s.gif",
-    "3c.gif", "3d.gif", "3h.gif", "3s.gif",
-    "4c.gif", "4d.gif", "4h.gif", "4s.gif",
-    "5c.gif", "5d.gif", "5h.gif", "5s.gif",
-    "6c.gif", "6d.gif", "6h.gif", "6s.gif",
-    "7c.gif", "7d.gif", "7h.gif", "7s.gif",
-    "8c.gif", "8d.gif", "8h.gif", "8s.gif",
-    "9c.gif", "9d.gif", "9h.gif", "9s.gif",
-    "jc.gif", "jd.gif", "jh.gif", "js.gif",
-    "qc.gif", "qd.gif", "qh.gif", "qs.gif",
-    "kc.gif", "kd.gif", "kh.gif", "ks.gif",
-    "ac.gif", "ad.gif", "ah.gif", "as.gif"
+    "2c.gif",
+    "2d.gif",
+    "2h.gif",
+    "2s.gif",
+    "3c.gif",
+    "3d.gif",
+    "3h.gif",
+    "3s.gif",
+    "4c.gif",
+    "4d.gif",
+    "4h.gif",
+    "4s.gif",
+    "5c.gif",
+    "5d.gif",
+    "5h.gif",
+    "5s.gif",
+    "6c.gif",
+    "6d.gif",
+    "6h.gif",
+    "6s.gif",
+    "7c.gif",
+    "7d.gif",
+    "7h.gif",
+    "7s.gif",
+    "8c.gif",
+    "8d.gif",
+    "8h.gif",
+    "8s.gif",
+    "9c.gif",
+    "9d.gif",
+    "9h.gif",
+    "9s.gif",
+    "jc.gif",
+    "jd.gif",
+    "jh.gif",
+    "js.gif",
+    "qc.gif",
+    "qd.gif",
+    "qh.gif",
+    "qs.gif",
+    "kc.gif",
+    "kd.gif",
+    "kh.gif",
+    "ks.gif",
+    "ac.gif",
+    "ad.gif",
+    "ah.gif",
+    "as.gif",
+];
+var traducciones = [
+    "dos de tréboles", "dos de diamantes", "dos de corazones", "dos de picas",
+    "tres de tréboles", "tres de diamantes", "tres de corazones", "tres de picas",
+    "cuatro de tréboles", "cuatro de diamantes", "cuatro de corazones", "cuatro de picas",
+    "cinco de tréboles", "cinco de diamantes", "cinco de corazones", "cinco de picas",
+    "seis de tréboles", "seis de diamantes", "seis de corazones", "seis de picas",
+    "siete de tréboles", "siete de diamantes", "siete de corazones", "siete de picas",
+    "ocho de tréboles", "ocho de diamantes", "ocho de corazones", "ocho de picas",
+    "nueve de tréboles", "nueve de diamantes", "nueve de corazones", "nueve de picas",
+    "jota de tréboles", "jota de diamantes", "jota de corazones", "jota de picas",
+    "reina de tréboles", "reina de diamantes", "reina de corazones", "reina de picas",
+    "rey de tréboles", "rey de diamantes", "rey de corazones", "rey de picas",
+    "as de tréboles", "as de diamantes", "as de corazones", "as de picas"
 ];
 var randomCard = function () {
     return archivos[Math.floor(Math.random() * archivos.length)];
 };
+//TODO Hay que crear una funcion en la que se introduzca el nombre de el id y el .src osea el valor de la seleccion
+//TODO Que esos elementos se guarden en algun sitio y si se vuelven a pulsar que se eliminen
+var resultados = ["a", "b", "c", "d"];
+//Posteriormente se hara una comparación que dara un resultado y si coincide debajo de todo se indicara
+var comparacioCartas = function (resultados) {
+    var valorEncontrado = false;
+    for (var i = 0; i < resultados.length; i++) {
+        if (!valorEncontrado) {
+            for (var j = 0; j < resultados.length; j++) {
+                if (i != j && resultados[i] == resultados[j]) {
+                    //Si los indices no son iguales(para que no se compare a si mismo) y hay igualdad de resultados
+                    console.log("Son iguales" + " carta " + (i + 1) + " - carta " + (j + 1) + ". Valor: " + resultados[i]);
+                    valorEncontrado = true; //Para detener el bucle y no haya repeticion, cuando se encuentre pasamos true y el for solo se ejecuta entonces
+                    var nCarta1 = i + 1;
+                    var nCarta2 = j + 1;
+                    return [nCarta1, nCarta2, resultados[i]];
+                }
+            }
+        }
+    }
+    return [0, 0, ""];
+};
 cartas.forEach(function (carta) {
     if (carta instanceof HTMLImageElement) {
+        //Inicialmente indicamos que la carta no esta seleccionada
+        var selectableCarta_1 = carta; //Aplicamos la interfaz para que disponga de isSelected
+        selectableCarta_1.isSelected = false; //Decimos que inicialmente es false
         // Hover en el que en cada carta se gira
         carta.addEventListener("mouseover", function (evento) {
-            if (!cartaSeleccionada) {
+            if (!selectableCarta_1.isSelected) {
                 carta.src = "./card-front.png";
             }
         });
         carta.addEventListener("mouseleave", function () {
-            if (!cartaSeleccionada) { // Solo se mostrara la parte trasera si no hemos hecho click, o sea la carta seleccionada sea false
+            //Solo se mostrara la parte trasera si no hemos hecho click, o sea la carta seleccionada sea false
+            if (!selectableCarta_1.isSelected) {
                 carta.src = "./card-back.png";
-                console.log("El valor cuando hace hover out: " + cartaSeleccionada);
             }
         });
         // Evento que se produce si se hace click
         carta.addEventListener("click", function () {
-            if (!cartaSeleccionada) {
-                var seleccion = "./img/" + randomCard();
+            var seleccion;
+            if (!selectableCarta_1.isSelected) {
+                seleccion = "./img/" + randomCard();
                 carta.src = seleccion;
-                cartaSeleccionada = true;
+                selectableCarta_1.isSelected = true;
+                //Ponemos la logica para guardar el resultado de las cartas
+                if (carta.id == "carta1") {
+                    resultados[0] = seleccion;
+                }
+                else if (carta.id == "carta2") {
+                    resultados[1] = seleccion;
+                }
+                else if (carta.id == "carta3") {
+                    resultados[2] = seleccion;
+                }
+                else if (carta.id == "carta4") {
+                    resultados[3] = seleccion;
+                }
+                console.log("Se ha seleccionado la carta " + carta.id + " con valor: " + seleccion);
+                console.log(resultados);
+                //TODO Implementacion de la funcion comparativa
+                comparacioCartas(resultados);
             }
             else {
                 carta.src = "./card-back.png";
-                cartaSeleccionada = false;
+                selectableCarta_1.isSelected = false;
+                //Hacemos que si se deseleccionan se quiten los elementos de el array resultado
+                if (carta.id == "carta1") {
+                    resultados[0] = "a";
+                }
+                else if (carta.id == "carta2") {
+                    resultados[1] = "b";
+                }
+                else if (carta.id == "carta3") {
+                    resultados[2] = "c";
+                }
+                else if (carta.id == "carta4") {
+                    resultados[3] = "d";
+                }
+                console.log(resultados);
             }
-            console.log("El valor de cartaSeleccionada después del click: " + cartaSeleccionada);
         });
     }
 });

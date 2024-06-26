@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bombilla interactiva</title>
+    <style>
+        body{
+            background-color: black;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 900px;
+
+        }
+        #interruptor{
+            width: 70px;
+            margin-bottom: 10px;
+        }
+        #bombilla{
+            width: 400px;
+        }
+        .controles{
+            border: red solid;
+            width: 300px;
+            height:fit-content ;
+            color: white;
+            text-align: center;
+        }
+        .controles h2{
+            background-color: red;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="interruptor" src="./boff.jpg" alt="Err">
+        <img id="bombilla" src="./off.jpg" alt="Err">
+    </div>
+    <div class="controles">
+        <h2>Ligth Level <span id="levelIndicator">0</span></h2>
+        <input type="range" name="ligthLevel" id="ligthLevel" min="0" max="7">
+        <h2>Bulb Zoom <span id="zoomIndicator">5</span></h2>
+        <input type="range" name="zoomLevel" id="zoomLevel" min="0" max="5" value="5">
+
+    </div>
+    <script src="./main.js"></script>
+</body>
+</html>

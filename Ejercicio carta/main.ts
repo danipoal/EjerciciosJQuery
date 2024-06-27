@@ -118,6 +118,20 @@ const randomCard = (): string => {
   return archivos[Math.floor(Math.random() * archivos.length)];
 };
 /*
+* @param {string} nombreArchivo - Nombre de el archivo en el que queremos encontrar
+* @returns {string} - Devuelve el nombre de el archivo pero traducido
+*/
+const traducir = (nombreArchivo : string) : string => {
+  //El nombre de el archivo tiene el ./img/ incluido y se tiene que quitar para que se pueda encontrar el indice
+  console.log(nombreArchivo.slice(6) + " nombre del archivo trim");
+    const indice = archivos.findIndex((elemento) => {
+     return elemento === nombreArchivo.slice(6);      //Cuando el elemento que itera sea igual al nombre de el archivo, devuelve el indice
+    })
+    console.log("El indice de archivo es " + indice + " " + traducciones[indice]);
+    return traducciones[indice];
+}
+
+/*
 * Posteriormente se hara una comparación que dara un resultado y si coincide debajo de todo se indicara
 *
 * @param {string[]} resultados - Es el array de string de resultados en los que se colocan los result de las cartas cuando se seleccionan
@@ -126,7 +140,7 @@ const randomCard = (): string => {
 * @returns {string} - Devuelve el nombre de el archivo de la carta que ha coincidido
 */
 const comparacioCartas = (resultados: string[]): [number, number, string] => {
-  let valorEncontrado = false;
+
   for (let i = 0; i < resultados.length; i++) {
     for (let j = 0; j < resultados.length; j++) {
       if (i != j && resultados[i] == resultados[j]) {
@@ -161,11 +175,13 @@ const imprimirResultado = (posicionA : number, posicionB : number, resultado : s
   //Imprimir resultado si hay resultado
   
   if(resultado != ""){
-    divObjetivo.innerHTML = `<p>Victoria! Match entre la carta ${posicionA} y la ${posicionB} de ${resultado} </p>`;
+    const resultadoTraducido = traducir(resultado);
+    divObjetivo.innerHTML = `<p>Victoria! Match entre la carta ${posicionA} y la ${posicionB} de <b>${resultadoTraducido}</b> </p>`;
     isResult = true;
-    console.log("Resultado impreso en div objetivo");
-  }else if(resultado == "" && isResult == true){
+    console.log(`Resultado: ${resultado} y Resultado traducido: ${resultadoTraducido}`);
+  }else if(resultado == ""  && isResult == true){
     //Si no devuelve resultado la funcion anterior, se deberia borrar el <p> en caso de que haya
+    console.log("Eliminando el resultado de el div")
     divObjetivo.textContent = "";
     isResult = false;
   }
@@ -221,7 +237,9 @@ cartas.forEach((carta) => {
         //Si la carta estaba seleccionada y se vuelve a pulsar, se pone boca abajo y el .isSelected pasa a false. 
         carta.src = "./card-back.png";
         selectableCarta.isSelected = false;
-
+        //Tambien comparamos para que se actualize el div y se elimine
+        //const res = comparacioCartas(resultados);
+        //imprimirResultado(...res, divResultado);
         //Hacemos que si se deseleccionan se quiten los elementos de el array resultado
         if (carta.id == "carta1") {
           resultados[0] = "a";

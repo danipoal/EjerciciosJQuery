@@ -1,5 +1,5 @@
 const cartas = document.querySelectorAll(".carta");
-
+const divResultado = document.querySelector("#resultado") as HTMLDivElement;
 // Definimos una interfaz que extienda HTMLImageElement para incluir isSelected como atributo
 interface SelectableImageElement extends HTMLImageElement {
   isSelected: boolean;
@@ -55,48 +55,123 @@ const archivos = [
   "as.gif",
 ];
 const traducciones = [
-  "dos de tréboles", "dos de diamantes", "dos de corazones", "dos de picas",
-  "tres de tréboles", "tres de diamantes", "tres de corazones", "tres de picas",
-  "cuatro de tréboles", "cuatro de diamantes", "cuatro de corazones", "cuatro de picas",
-  "cinco de tréboles", "cinco de diamantes", "cinco de corazones", "cinco de picas",
-  "seis de tréboles", "seis de diamantes", "seis de corazones", "seis de picas",
-  "siete de tréboles", "siete de diamantes", "siete de corazones", "siete de picas",
-  "ocho de tréboles", "ocho de diamantes", "ocho de corazones", "ocho de picas",
-  "nueve de tréboles", "nueve de diamantes", "nueve de corazones", "nueve de picas",
-  "jota de tréboles", "jota de diamantes", "jota de corazones", "jota de picas",
-  "reina de tréboles", "reina de diamantes", "reina de corazones", "reina de picas",
-  "rey de tréboles", "rey de diamantes", "rey de corazones", "rey de picas",
-  "as de tréboles", "as de diamantes", "as de corazones", "as de picas"
+  "dos de tréboles",
+  "dos de diamantes",
+  "dos de corazones",
+  "dos de picas",
+  "tres de tréboles",
+  "tres de diamantes",
+  "tres de corazones",
+  "tres de picas",
+  "cuatro de tréboles",
+  "cuatro de diamantes",
+  "cuatro de corazones",
+  "cuatro de picas",
+  "cinco de tréboles",
+  "cinco de diamantes",
+  "cinco de corazones",
+  "cinco de picas",
+  "seis de tréboles",
+  "seis de diamantes",
+  "seis de corazones",
+  "seis de picas",
+  "siete de tréboles",
+  "siete de diamantes",
+  "siete de corazones",
+  "siete de picas",
+  "ocho de tréboles",
+  "ocho de diamantes",
+  "ocho de corazones",
+  "ocho de picas",
+  "nueve de tréboles",
+  "nueve de diamantes",
+  "nueve de corazones",
+  "nueve de picas",
+  "jota de tréboles",
+  "jota de diamantes",
+  "jota de corazones",
+  "jota de picas",
+  "reina de tréboles",
+  "reina de diamantes",
+  "reina de corazones",
+  "reina de picas",
+  "rey de tréboles",
+  "rey de diamantes",
+  "rey de corazones",
+  "rey de picas",
+  "as de tréboles",
+  "as de diamantes",
+  "as de corazones",
+  "as de picas",
 ];
 
-const randomCard = (): string => {
-  return archivos[Math.floor(Math.random() * archivos.length)];
-};
 
 //TODO Hay que crear una funcion en la que se introduzca el nombre de el id y el .src osea el valor de la seleccion
 //TODO Que esos elementos se guarden en algun sitio y si se vuelven a pulsar que se eliminen
 let resultados = ["a", "b", "c", "d"];
-//Posteriormente se hara una comparación que dara un resultado y si coincide debajo de todo se indicara
-const comparacioCartas = (resultados: string[]) : [number, number, string] => {
+//Funciones
+
+/*
+* @returns {string} - Devuelve un string random de dentro de la const archivos
+*/
+const randomCard = (): string => {
+  return archivos[Math.floor(Math.random() * archivos.length)];
+};
+/*
+* Posteriormente se hara una comparación que dara un resultado y si coincide debajo de todo se indicara
+*
+* @param {string[]} resultados - Es el array de string de resultados en los que se colocan los result de las cartas cuando se seleccionan
+* @returns {number} - Devuelve la posición de la primera carta que coincide
+* @returns {number} - Devuelve la posición de la segunda carta que coincide
+* @returns {string} - Devuelve el nombre de el archivo de la carta que ha coincidido
+*/
+const comparacioCartas = (resultados: string[]): [number, number, string] => {
   let valorEncontrado = false;
   for (let i = 0; i < resultados.length; i++) {
-    if(!valorEncontrado){
-      for (let j = 0; j < resultados.length; j++) {
+    for (let j = 0; j < resultados.length; j++) {
       if (i != j && resultados[i] == resultados[j]) {
         //Si los indices no son iguales(para que no se compare a si mismo) y hay igualdad de resultados
-        console.log("Son iguales" + " carta " + (i+1) + " - carta " + (j+1) + ". Valor: " + resultados[i]);
-        valorEncontrado = true; //Para detener el bucle y no haya repeticion, cuando se encuentre pasamos true y el for solo se ejecuta entonces
-        const nCarta1 = i+1;
-        const nCarta2 = j+1;
+        console.log(
+          "Son iguales" +
+            " carta " +
+            (i + 1) +
+            " - carta " +
+            (j + 1) +
+            ". Valor: " +
+            resultados[i]
+        );
+        const nCarta1 = i + 1;
+        const nCarta2 = j + 1;
         return [nCarta1, nCarta2, resultados[i]];
       }
-    }
-
     }
   }
   return [0, 0, ""];
 };
+let isResult = false; //Parametro que ayudara a saber si se ha imprimido un resultado o no en el div
+/*
+* Funcion que imprime el resultado en el objetivo asignado
+*
+* @param {number} - Devuelve la posición de la primera carta que coincide
+* @param {number} - Devuelve la posición de la segunda carta que coincide
+* @param {string} - Devuelve el nombre de el archivo de la carta que ha coincidido
+* @param {HTMLDivElement} - Definimos el div en el que queremos que se imprima el resultado
+*/
+const imprimirResultado = (posicionA : number, posicionB : number, resultado : string, divObjetivo : HTMLDivElement) => {
+  //Imprimir resultado si hay resultado
+  
+  if(resultado != ""){
+    divObjetivo.innerHTML = `<p>Victoria! Match entre la carta ${posicionA} y la ${posicionB} de ${resultado} </p>`;
+    isResult = true;
+    console.log("Resultado impreso en div objetivo");
+  }else if(resultado == "" && isResult == true){
+    //Si no devuelve resultado la funcion anterior, se deberia borrar el <p> en caso de que haya
+    divObjetivo.textContent = "";
+    isResult = false;
+  }
+}
 
+//EVENTLISTENER para cada carta de el conjunto de cartas
 cartas.forEach((carta) => {
   if (carta instanceof HTMLImageElement) {
     //Inicialmente indicamos que la carta no esta seleccionada
@@ -119,12 +194,13 @@ cartas.forEach((carta) => {
 
     // Evento que se produce si se hace click
     carta.addEventListener("click", () => {
-      let seleccion;
+      let seleccion : string;
       if (!selectableCarta.isSelected) {
+        //Si la carta no se ha seleccionado, buscaremos una random y la asignaremos a .src
         seleccion = "./img/" + randomCard();
         carta.src = seleccion;
         selectableCarta.isSelected = true;
-        //Ponemos la logica para guardar el resultado de las cartas
+        //Cuando se elige una carta random, colocamos su valor en el array de resultados para posteriormente comparar
         if (carta.id == "carta1") {
           resultados[0] = seleccion;
         } else if (carta.id == "carta2") {
@@ -139,8 +215,10 @@ cartas.forEach((carta) => {
         );
         console.log(resultados);
         //TODO Implementacion de la funcion comparativa
-        comparacioCartas(resultados);
+        const res = comparacioCartas(resultados);
+        imprimirResultado(...res, divResultado); //Esos 3 puntos hace que los 3 elementos de el array que saca de comparacio se introduzcan en los 3 elementos de imprimir
       } else {
+        //Si la carta estaba seleccionada y se vuelve a pulsar, se pone boca abajo y el .isSelected pasa a false. 
         carta.src = "./card-back.png";
         selectableCarta.isSelected = false;
 

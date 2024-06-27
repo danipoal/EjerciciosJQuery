@@ -5,32 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body{
+        main{
             display: flex;
             justify-content: center;
         }
         .container{
             margin-right: 20px;
-            height: 500px;
+            height: 420px;
         }
         .container img{
             height: 400px;
             margin: auto;
         }
+        #resultado{
+            height: 100px;
+            border: solid;
+
+        }
+        #resultado p{
+            font-size: xx-large;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img id="carta1" class="carta" src="./card-back.png" alt="Err">
-    </div>
-    <div class="container">
-        <img id="carta2" class="carta" src="./card-back.png" alt="Err">
-    </div>
-    <div class="container">
-        <img id="carta3" class="carta" src="./card-back.png" alt="Err">
-    </div>
-    <div class="container">
-        <img id="carta4" class="carta" src="./card-back.png" alt="Err">
+    <main>
+        <div class="container">
+            <img id="carta1" class="carta" src="./card-back.png" alt="Err">
+        </div>
+        <div class="container">
+            <img id="carta2" class="carta" src="./card-back.png" alt="Err">
+        </div>
+        <div class="container">
+            <img id="carta3" class="carta" src="./card-back.png" alt="Err">
+        </div>
+        <div class="container">
+            <img id="carta4" class="carta" src="./card-back.png" alt="Err">
+        </div>
+    </main>
+    <div id="resultado">
+        
     </div>
 
     <script src="./main.js"></script>

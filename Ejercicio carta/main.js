@@ -233,9 +233,6 @@ cartas.forEach(function (carta) {
                 //Si la carta estaba seleccionada y se vuelve a pulsar, se pone boca abajo y el .isSelected pasa a false. 
                 carta.src = "./card-back.png";
                 selectableCarta_1.isSelected = false;
-                //Tambien comparamos para que se actualize el div y se elimine
-                //const res = comparacioCartas(resultados);
-                //imprimirResultado(...res, divResultado);
                 //Hacemos que si se deseleccionan se quiten los elementos de el array resultado
                 if (carta.id == "carta1") {
                     resultados[0] = "a";
@@ -250,6 +247,9 @@ cartas.forEach(function (carta) {
                     resultados[3] = "d";
                 }
                 console.log(resultados);
+                //Tambien comparamos para que se actualize el div y se elimine
+                var res = comparacioCartas(resultados);
+                imprimirResultado.apply(void 0, __spreadArray(__spreadArray([], res, false), [divResultado], false));
             }
         });
     }
